@@ -10,8 +10,6 @@ const mp = {
         init: function() {
             var _self = this;
 
-            console.log(this.MINIMUM_FORM_COUNT);
-
             $("#mp-deletebutton").on("click", function() {
                 if ($(".mp-stationform").length === _self.MINIMUM_FORM_COUNT) {
                     return;
@@ -31,6 +29,11 @@ const mp = {
                 $("#mp-inputgroup").append(newForm);
 
                 _self._updateDeleteButtonState();
+            });
+
+            $("#mp-searchbutton").on("click", function() {
+                // TODO:実装
+                console.log("aaa")
             });
         },
 
