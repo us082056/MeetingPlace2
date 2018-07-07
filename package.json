@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
+    "csv-parse": "^2.5.0",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "micromatch": "^3.1.10",
     "morgan": "~1.9.0"
   }
 }
