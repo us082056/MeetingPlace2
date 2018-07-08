@@ -70,15 +70,78 @@ app.get('/index', function (req, res) {
     res.sendFile(__dirname + '/public/html/index.html');
 });
 
+app.get('/check/exist', function (req, res) {
+    var stationname = req.query.station,
+        isExist = false,
+        tmpDataset, tmpLength;
+
+    // do not get length cause tmpDataset is json format,
+    // so get length from keys array
+    tmpDataset = mm.matchKeys(mp.def.station, stationname + "（*）");
+    tmpLength = Object.keys(tmpDataset).length;
+
+    res.header('Content-Type', 'application/json; charset=utf-8')
+    res.send({
+        isExist: (tmpLength !== 0)
+    });
+});
+
 // return static file sample
 app.get('/inspection', function (req, res) {
+    var lon = 0.0, lat = 0.0;
 
-    // 以下、動作確認用
+    // TODO: 以下、動作確認用
     // mmでワイルドカードで、複数件の同一名駅を検索できることを確認
-    Object.keys(req.query).forEach(function (key) {
-        var stationname = req.query[key];
-        console.log(mm.matchKeys(mp.def.station, stationname + "（*）"));
-    });
+    // Object.keys(req.query).forEach(function (key) {
+    //     var stationname = req.query[key];
+    //     console.log(mm.matchKeys(mp.def.station, stationname + "（*）"));
+    // });
+    
+    // TODO: 以下、動作確認用
+    // どの駅名かユーザに選択させたあと、緯度経度の中点を求めるまで
+    // Object.keys(req.query).forEach(function (key) {
+    //     var stationname = req.query[key],
+    //         dataset = mm.matchKeys(mp.def.station, stationname + "（*）"),
+    //         datakey = Object.keys(dataset)[0];
+
+    //         lon += parseFloat(dataset[datakey].lon);
+    //         lat += parseFloat(dataset[datakey].lat);
+
+    //         // 緯度経度が加算されていることの確認 
+    //         console.log(lon + ", " + lat);
+    // });
+
+    // lon = lon / Object.keys(req.query).length;
+    // lat = lat / Object.keys(req.query).length;
+
+    // // 中点の確認
+    // console.log(lon + ", " + lat);
+
+    // // 全駅がどれ位離れているかを調べる
+    // Object.keys(mp.def.station).forEach(function (key) {
+    //     var data = mp.def.station[key],
+    //         tmpLon = data.lon,
+    //         tmpLat = data.lat,
+    //         distance,
+    //         radian = function(deg) {
+    //             return deg * ( Math.PI / 180 );
+    //         };
+
+    //     // https://qiita.com/yangci/items/dffaacf424ebeb1dd643
+    //     // tmpLat、tmplon〜lat、lon間のキロ数を求める計算
+    //     distance = 6371 *
+    //                 Math.acos(Math.cos(radian(lat)) *
+    //                     Math.cos(radian(tmpLat)) *
+    //                     Math.cos(radian(tmpLon) - radian(lon)) + Math.sin(radian(lat)) *
+    //                     Math.sin(radian(tmpLat))
+    //                 );
+    //     // 例えば3キロ以内なら、以下のように判定する
+    //     // 何キロにすればいいだろうか？
+    //     if (distance <= 3) {
+    //         console.log(key + ", " + distance);
+    //     }
+    // });
+
     res.sendFile(__dirname + '/public/html/index.html');
 });
 
