@@ -7,6 +7,8 @@ const mp = {
                             "<input type='text' class='form-control' placeholder='駅名'>" +
                         "</div>",
 
+        ERROR_MSG_TEMPLATE: "<p class='mp-errormsg alert alert-danger' />",
+
         init: function() {
             var _self = this;
 
@@ -32,14 +34,69 @@ const mp = {
             });
 
             $("#mp-searchbutton").on("click", function() {
-                // TODO:リクエスト処理
+                var $d ,reqParam = {},
+                    $notEmptyInput = $(".mp-stationform").find("input").filter(function() {
 
-                // 入力チェック
-                // チェックエラーの場合、メッセージエリアめメッセージ表示し終了
+                    // filter for not empty
+                    return $(this).val();
+                });
 
-                // リクエスト作成し送信
-                // エラーの場合、メッセージ表示かエラーぺじへ
+                // single item check
+                // check: count of items
+                if ($notEmptyInput.length < 2) {
+                    _self._showErrorMsg("2つ以上の出発駅を入力してください。");
+                    return;
+                }
+
+                // create request parameter
+                $notEmptyInput.each(function(idx, elm) {
+                    reqParam["station" + (idx + 1)] = $(elm).val();
+                });
+
+                $d = $.Deferred();
+
+                // correlation check
+                // check: is exist
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:3000/check/exist",
+                    data: reqParam
+                }).then(function(res) {
+                    var errorMsg = "";
+
+                    if (res.notFoundStations.length !== 0) {
+                        res.notFoundStations.forEach(function(notFoundStation, idx){
+                            if (idx !== 0) {
+                                errorMsg += "<br>";
+                            }
+                            errorMsg += notFoundStation + "が見つかりません、駅名が正しいか確認してください。";
+                        });
+
+                        _self._showErrorMsg(errorMsg);
+                        $d.reject();
+                    } else {
+                        $d.resolve();
+                    }
+                });
+
+                $.when($d).then(function() {
+                    // TODO:リクエスト送信
+                    return;
+                }).fail(function() {
+                    // TODO: なにもしないで終わり？
+                    return;
+                });
             });
+        },
+
+        _showErrorMsg: function(errorMsg) {
+            var $msg = $(this.ERROR_MSG_TEMPLATE);
+
+            $msg.append(errorMsg);
+
+            // assuming that the message is already displayed,
+            // first empty message area
+            $("#mp-messagearea").empty().append($msg);
         },
 
         _updateDeleteButtonState: function() {
