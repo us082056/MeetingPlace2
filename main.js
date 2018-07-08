@@ -104,12 +104,20 @@ app.get('/check/exist', function (req, res) {
     });
 });
 
-// return static file sample
+// TODO
 app.get('/inspection', function (req, res) {
     var lon = 0.0, lat = 0.0;
 
+    // TODO: 都道府県を確定するための処理を実装する
+        // 都道府県違いの駅が一つでもある場合
+            // 都道府県違いがある場合 ー＞ select要素作成
+            // 都道府県違いがない場合 ー＞ input要素をhiddenで作成
+            // 解決用のHTMLレンダリング
+        // 都道府県違いの駅が一つもない場合
+            // 検索へリダイレクト
+
     // TODO: 以下、動作確認用
-    // mmでワイルドカードで、複数件の同一名駅を検索できることを確認
+    // mmでワイルドカードで、複数県の同一名駅を検索できることを確認
     // Object.keys(req.query).forEach(function (key) {
     //     var stationname = req.query[key];
     //     console.log(mm.matchKeys(mp.def.station, stationname + "（*）"));
