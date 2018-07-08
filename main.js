@@ -70,19 +70,39 @@ app.get('/index', function (req, res) {
     res.sendFile(__dirname + '/public/html/index.html');
 });
 
+// requeat parameter = station1, station2, ..., station[1-9]+
 app.get('/check/exist', function (req, res) {
-    var stationname = req.query.station,
-        isExist = false,
-        tmpDataset, tmpLength;
+    var notFoundStations = [];
 
-    // do not get length cause tmpDataset is json format,
-    // so get length from keys array
-    tmpDataset = mm.matchKeys(mp.def.station, stationname + "（*）");
-    tmpLength = Object.keys(tmpDataset).length;
+    Object.keys(req.query).forEach(function (key) {
+        var originStationname,
+            tmpStationname, tmpDataset, tmpLength;
+
+        // bad request parameter is not process
+        if (/station[1-9]+/.test(key) === false) {
+            return true;
+        }
+
+        originStationname = tmpStationname = req.query[key];
+
+        // if user input suffix "駅", remove it
+        if(tmpStationname.slice(-1) === "駅") {
+            tmpStationname = tmpStationname.slice(0, -1);
+        }
+
+        // do not get length cause tmpDataset is json format,
+        // so get length from keys array
+        tmpDataset = mm.matchKeys(mp.def.station, tmpStationname + "（*）");
+        tmpLength = Object.keys(tmpDataset).length;
+
+        if (tmpLength === 0) {
+            notFoundStations.push(originStationname);
+        }
+    });
 
     res.header('Content-Type', 'application/json; charset=utf-8')
     res.send({
-        isExist: (tmpLength !== 0)
+        notFoundStations: notFoundStations
     });
 });
 
