@@ -60,12 +60,10 @@ const mp = {
 
 mp.loadDef();
 
-// return static file sample
+// start point
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/public/html/helloworld.html');
+    res.redirect("/index");
 });
-
-// return static file sample
 app.get('/index', function (req, res) {
     res.sendFile(__dirname + '/public/html/index.html');
 });
@@ -79,7 +77,7 @@ app.get('/check/exist', function (req, res) {
             tmpStationname, tmpDataset, tmpLength;
 
         // bad request parameter is not process
-        if (/station[1-9]+/.test(key) === false) {
+        if (!/station[1-9]+/.test(key)) {
             return true;
         }
 
