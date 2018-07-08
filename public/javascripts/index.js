@@ -59,7 +59,7 @@ const mp = {
                 // check: is exist
                 $.ajax({
                     type: "GET",
-                    url: "http://localhost:3000/check/exist",
+                    url: "check/exist",
                     data: reqParam
                 }).then(function(res) {
                     var errorMsg = "";
@@ -79,11 +79,13 @@ const mp = {
                     }
                 });
 
-                $.when($d).then(function() {
+                $d.then(function() {
                     // TODO:リクエスト送信
+                    console.log("success");
                     return;
                 }).fail(function() {
                     // TODO: なにもしないで終わり？
+                    console.log("fail");
                     return;
                 });
             });
