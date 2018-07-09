@@ -7,6 +7,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
 // publish static files
 app.use(express.static('public'));
 app.use(express.static('resources'));
@@ -65,7 +69,10 @@ app.get('/', function (req, res) {
     res.redirect("/index");
 });
 app.get('/index', function (req, res) {
-    res.sendFile(__dirname + '/public/html/index.html');
+    // res.sendFile(__dirname + '/public/html/index.html');
+
+    // TODO: jade template test
+    res.render("index2");
 });
 
 // requeat parameter = station1, station2, ..., station[1-9]+
