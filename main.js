@@ -97,7 +97,6 @@ app.get('/index', function (req, res) {
     res.render("index");
 });
 
-// requeat parameter = station1, station2, ..., station[1-9]+
 app.get('/check/exist', function (req, res) {
     var notFoundStations = [];
 
@@ -127,20 +126,20 @@ app.get('/check/exist', function (req, res) {
     });
 });
 
-// TODO
 app.get('/inspection', function (req, res) {
     var candidates = [],
-        requireResolution = false;
+        requireResolution = false,
+        url;
 
-    Object.keys(req.query).forEach(function (outerkey) {
+    Object.keys(req.query).forEach(function (queryKey) {
         var stationName, candidateStationNames;
 
         // bad request parameter is not process
-        if (!/station[1-9]+/.test(outerkey)) {
+        if (!/station[1-9]+/.test(queryKey)) {
             return true;
         }
 
-        stationName = req.query[outerkey];
+        stationName = req.query[queryKey];
         candidateStationNames = Object.keys(mp.getStation(stationName));
 
         candidates.push({
@@ -153,21 +152,28 @@ app.get('/inspection', function (req, res) {
         }
     });
 
-    console.log(candidates);
-    console.log(requireResolution);
-
     if (requireResolution) {
-        // TODO: 解決するための画面へ遷移させる
         res.render("inspection", {
             candidates: candidates
         });
     } else {
-        // TODO: 検索結果表示画面へ遷移させる
-        res.render("index");
+        url = "search?";
+
+        candidates.forEach(function(elm, idx) {
+            url += "station" + (idx + 1) + "=" + elm.candidateStationNames[0];
+
+            if (idx !== (candidates.length - 1)) {
+                url += "&";
+            }
+        });
+
+        res.redirect(url);
     }
 });
 
 app.get('/search', function (req, res) {
+    console.log("result" + JSON.stringify(req.query));
+    res.redirect("index");
     // TODO: 以下、動作確認用
     // var lon = 0.0, lat = 0.0;
     // どの駅名かユーザに選択させたあと、緯度経度の中点を求めるまで
