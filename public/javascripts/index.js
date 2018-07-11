@@ -7,7 +7,7 @@ const mp = {
                             "<input type='text' class='form-control' placeholder='駅名'>" +
                         "</div>",
 
-        ERROR_MSG_TEMPLATE: "<p class='mp-errormsg alert alert-danger' />",
+        ERROR_MSG_TEMPLATE: "<p class='mp-errormsg alert alert-danger'/>",
 
         init: function() {
             var _self = this;
@@ -92,7 +92,7 @@ const mp = {
 
                     // navigate next page
                     location.href = url;
-                    
+
                     return;
                 }).fail(function() {
 
