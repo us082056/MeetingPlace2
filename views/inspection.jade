@@ -17,8 +17,8 @@ block content
         .panel-body
             form
                 #mp-inputgroup
-                    .mp-stationform.form-group
-                        each candidate, idx in candidates
+                    each candidate, idx in candidates
+                        .mp-stationform.form-group
                             if candidate.candidateStationNames.length === 1
                                 input(value=candidate.candidateStationNames[0], type="hidden")
                             else
@@ -26,3 +26,7 @@ block content
                                 select.form-control
                                     each stationName in candidate.candidateStationNames
                                         option(value=stationName) #{stationName}
+                
+                .btn-toolbar
+                    input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")
+                    input#mp-searchbutton.btn.btn-primary(type="button", value="検索")
