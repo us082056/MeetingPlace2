@@ -1,0 +1,28 @@
+extends base
+
+block meta
+    title 候補選択
+    meta(name="robots", content="noindex,follow")
+
+block import
+    script(type="text/javascript", src="javascripts/inspection.js")
+    script(type="text/javascript").
+        $(function(){
+            mp.inspectionControl.init();
+        });
+
+block content
+    .panel.panel-primary
+        .panel-heading 選択候補
+        .panel-body
+            form
+                #mp-inputgroup
+                    .mp-stationform.form-group
+                        each candidate, idx in candidates
+                            if candidate.candidateStationNames.length === 1
+                                input(value=candidate.candidateStationNames[0], type="hidden")
+                            else
+                                label #{candidate.userInputStationName}
+                                select.form-control
+                                    each stationName in candidate.candidateStationNames
+                                        option(value=stationName) #{stationName}

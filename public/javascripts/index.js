@@ -80,12 +80,23 @@ const mp = {
                 });
 
                 $d.then(function() {
-                    // TODO:リクエスト送信
-                    console.log("success");
+                    var url = "inspection?";
+
+                    Object.keys(reqParam).forEach(function (key, idx, array) {
+                        url += key + "=" + reqParam[key];
+
+                        if (idx !== (array.length - 1)) {
+                            url += "&";
+                        }
+                    });
+
+                    // navigate next page
+                    location.href = url;
+                    
                     return;
                 }).fail(function() {
-                    // TODO: なにもしないで終わり？
-                    console.log("fail");
+
+                    // do nothing
                     return;
                 });
             });

@@ -12,6 +12,22 @@ html(lang="ja")
     script(type="text/javascript", src="vendor/jquery1.11.3/jquery.min.js")
     script(type="text/javascript", src="vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js")
 
+    // TODO: GoogleAnaliticsのタグ入れる
+
     block import
   body
-    block content
+    .well.well-sm
+        // common header
+        h1
+            a(href="index", style="text-decoration:none; color:#333;") 集合駅検索
+        p 出発駅それぞれから中間地点にある駅を検索します。
+        p
+            a(href="https://twitter.com/hoge_hoge_X") ご意見ご要望はこちらへDM
+
+        // message area
+        #mp-messagearea
+
+        block content
+
+        // common footer
+        #mp-footerarea
