@@ -53,11 +53,15 @@ const mp = {
                 lon = elm[9],
                 lat = elm[10];
 
-            _self.def.station[nameWithPref] = {
-                lineName: lineName,
-                lon: lon,
-                lat: lat
-            };
+            if(!_self.def.station[nameWithPref]) {
+                _self.def.station[nameWithPref] = {
+                    lineName: [lineName],
+                    lon: lon,
+                    lat: lat
+                };
+            } else {
+                _self.def.station[nameWithPref].lineName.push(lineName);
+            }
         });
     },
 
