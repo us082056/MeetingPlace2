@@ -27,7 +27,7 @@ const mp = {
             lineMap = {}, prefMap = {};
             _self = this;
             
-        // key:linecode, value:linename
+        // key:linecode, value:lineName
         lineCsvArray.filter(function(elm, idx) {
             return (idx !== 0);
         }).forEach(function(elm) {
@@ -41,20 +41,20 @@ const mp = {
             prefMap[elm[0]] = elm[1];
         });
 
-        // key:stationname(prefname)
-        // value:{linename, lon, lat}
+        // key:stationName(prefname)
+        // value:{lineName, lon, lat}
         stationCsvArray.filter(function(elm, idx) {
             return (idx !== 0);
         }).forEach(function(elm) {
 
             // 2byte brackets
             var nameWithPref = elm[2] + "（" + prefMap[elm[6]] + "）",
-                linename = lineMap[elm[5]],
+                lineName = lineMap[elm[5]],
                 lon = elm[9],
                 lat = elm[10];
 
             _self.def.station[nameWithPref] = {
-                linename: linename,
+                lineName: lineName,
                 lon: lon,
                 lat: lat
             };
@@ -65,17 +65,17 @@ const mp = {
     // return format is below
     // {
     //     stationName(prefName1): {
-    //         linename: xxx,
+    //         lineName: xxx,
     //         lon: xxx,
     //         lat: xxx
     //     },
     //     stationName(prefNameX): {
-    //         linename: xxx,
+    //         lineName: xxx,
     //         lon: xxx,
     //         lat: xxx
     //     }
     // }
-    getStation: function(stationName) {
+    getStationFuzzy: function(stationName) {
         var _stationName = stationName;
 
         // if user input suffix "駅", remove it
@@ -109,7 +109,7 @@ app.get('/check/exist', function (req, res) {
         }
 
         stationName = req.query[key];
-        tmpDataset = mp.getStation(stationName);
+        tmpDataset = mp.getStationFuzzy(stationName);
 
         // do not get length cause tmpDataset is json format,
         // so get length from keys array
@@ -140,7 +140,7 @@ app.get('/inspection', function (req, res) {
         }
 
         stationName = req.query[queryKey];
-        candidateStationNames = Object.keys(mp.getStation(stationName));
+        candidateStationNames = Object.keys(mp.getStationFuzzy(stationName));
 
         candidates.push({
             userInputStationName: stationName,
@@ -172,53 +172,70 @@ app.get('/inspection', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-    console.log("result" + JSON.stringify(req.query));
-    res.redirect("index");
-    // TODO: 以下、動作確認用
-    // var lon = 0.0, lat = 0.0;
-    // どの駅名かユーザに選択させたあと、緯度経度の中点を求めるまで
-    // Object.keys(req.query).forEach(function (key) {
-    //     var stationname = req.query[key],
-    //         dataset = mm.matchKeys(mp.def.station, stationname + "（*）"),
-    //         datakey = Object.keys(dataset)[0];
+    var lon = 0.0, lat = 0.0, stationCount = 0,
+        middlePointStations = [];
 
-    //         lon += parseFloat(dataset[datakey].lon);
-    //         lat += parseFloat(dataset[datakey].lat);
+    // calculate middle point
+    Object.keys(req.query).forEach(function (key) {
+        var stationName, stationData;
 
-    //         // 緯度経度が加算されていることの確認 
-    //         console.log(lon + ", " + lat);
-    // });
+            // bad request parameter is not process
+            if (!/station[1-9]+/.test(key)) {
+                return true;
+            }
 
-    // lon = lon / Object.keys(req.query).length;
-    // lat = lat / Object.keys(req.query).length;
+            stationName = req.query[key];
+            stationData = mp.def.station[stationName];
 
-    // // 中点の確認
-    // console.log(lon + ", " + lat);
+            lon += parseFloat(stationData.lon);
+            lat += parseFloat(stationData.lat);
+            stationCount++;
+    });
 
-    // // 全駅がどれ位離れているかを調べる
-    // Object.keys(mp.def.station).forEach(function (key) {
-    //     var data = mp.def.station[key],
-    //         tmpLon = data.lon,
-    //         tmpLat = data.lat,
-    //         distance,
-    //         radian = function(deg) {
-    //             return deg * ( Math.PI / 180 );
-    //         };
+    lon = lon / stationCount;
+    lat = lat / stationCount;
 
-    //     // https://qiita.com/yangci/items/dffaacf424ebeb1dd643
-    //     // tmpLat、tmplon〜lat、lon間のキロ数を求める計算
-    //     distance = 6371 *
-    //                 Math.acos(Math.cos(radian(lat)) *
-    //                     Math.cos(radian(tmpLat)) *
-    //                     Math.cos(radian(tmpLon) - radian(lon)) + Math.sin(radian(lat)) *
-    //                     Math.sin(radian(tmpLat))
-    //                 );
-    //     // 例えば3キロ以内なら、以下のように判定する
-    //     // 何キロにすればいいだろうか？
-    //     if (distance <= 3) {
-    //         console.log(key + ", " + distance);
-    //     }
-    // });
+    // calculate distancea between each station and middle point
+    Object.keys(mp.def.station).some(function (key) {
+        var stationData = mp.def.station[key],
+            tmpLon = stationData.lon,
+            tmpLat = stationData.lat,
+            radian = function(deg) {
+                return deg * ( Math.PI / 180 );
+            },
+            kmDist;
+
+        // calculate km distance
+        kmDist = 6371 * Math.acos(Math.cos(radian(lat)) *
+                            Math.cos(radian(tmpLat)) *
+                            Math.cos(radian(tmpLon) - radian(lon)) +
+                            Math.sin(radian(lat)) *
+                            Math.sin(radian(tmpLat))
+                        );
+
+        // within 10km radius
+        if (kmDist <= 10) {
+            middlePointStations.push({
+                stationName: key,
+                lineName: stationData.lineName,
+                kmDist: kmDist
+            });
+        }
+    });
+
+    // sort with distance
+    middlePointStations.sort(function(a, b) {
+        return (a.kmDist - b.kmDist);
+    });
+
+    // trim
+    if (middlePointStations.length > 5) {
+        middlePointStations = middlePointStations.slice(0, 5);
+    }
+
+    console.log(middlePointStations);
+
+    res.redirect("/index");
 });
 
 app.listen(3000, function () {
