@@ -2,9 +2,7 @@
   "name": "meetingplace2",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "node ./bin/www"
-  },
+  "scripts": {},
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "csv-parse": "^2.5.0",
