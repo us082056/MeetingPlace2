@@ -12,7 +12,15 @@ html(lang="ja")
     script(type="text/javascript", src="vendor/jquery1.11.3/jquery.min.js")
     script(type="text/javascript", src="vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js")
 
-    // TODO: GoogleAnaliticsのタグ入れる
+    // GA
+    script.
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-26646759-2', 'auto');
+        ga('send', 'pageview');
 
     script(type="text/javascript").
         $(function(){
@@ -27,8 +35,12 @@ html(lang="ja")
         h1
             a(href="index", style="text-decoration:none; color:#333;") 集合駅検索
         p 出発駅それぞれから中間地点にある駅を検索します。
-        p
-            a(href="https://twitter.com/hoge_hoge_X") ご意見ご要望はこちらへDM
+
+        ul.list-inline
+            li
+                a(href="information") お知らせ（2018/7/15 update）
+            li
+                a(href="contact") お問い合わせ
 
         // message area
         #mp-messagearea
@@ -37,5 +49,42 @@ html(lang="ja")
 
         // common footer
         #mp-footerarea
-        // TODO: 広告
-        a(href="poricy") サイトポリシー
+
+        // share
+        ul.nav.nav-pills
+            // line
+            li
+                span
+                  script(type='text/javascript', src='//media.line.me/js/line-button.js?v=20140411')
+                  script(type='text/javascript').
+                    new media_line_me.LineButton({"pc":false,"lang":"ja","type":"c","text":"http://meeting-place.shibatar.net/index","withUrl":false});
+
+            // twitter
+            li
+                a.twitter-share-button(href='https://twitter.com/share', data-url='http://meeting-place.shibatar.net/index', data-lang='ja') ツイート
+                script.
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+            // fb
+            li
+                #fb-root
+                script.
+                  (function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.5";
+                  fjs.parentNode.insertBefore(js, fjs);
+                  }(document, 'script', 'facebook-jssdk'));
+                .fb-like(data-href='http://meeting-place.shibatar.net/index', data-layout='button', data-action='recommend', data-show-faces='true', data-share='false')
+
+        // add: m2_smartphone1
+        script(src="//adm.shinobi.jp/s/d5f4e81e6393fdbae99303fe6e308dc6")
+        // add: m2_smartphone2
+        script(src="//adm.shinobi.jp/s/21d81a3bec75f07206433985b4b81b1a")
+        // add: m2_pc1
+        script(src="//adm.shinobi.jp/s/852e46145828ec35bdf1fe463903d6da")
+        // add: m2_pc2
+        script(src="//adm.shinobi.jp/s/31b5b3fd9e9205ee1bae0c63c4dffb0c")
+
+        a(href="poricy", style="display:block") サイトポリシー

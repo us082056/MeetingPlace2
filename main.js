@@ -1,29 +1,32 @@
-const fs = require('fs');
-const csv2array = require('csv-parse/lib/sync');
+const fs = require("fs");
+const csv2array = require("csv-parse/lib/sync");
 const mm = require("micromatch");
+const log4js = require("log4js");
 
 // express modules
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
+const path = require("path");
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 // publish static files
-app.use(express.static('public'));
-app.use(express.static('resources'));
+app.use(express.static("public"));
+app.use(express.static("resources"));
 
 const mp = {
+    logger: null,
+
     def: {
         station: {}
     },
 
     loadDef: function() {
-        var stationCsvArray = csv2array(fs.readFileSync(__dirname + '/resources/station.csv')),
-            lineCsvArray = csv2array(fs.readFileSync(__dirname + '/resources/line.csv')),
-            prefCsvArray = csv2array(fs.readFileSync(__dirname + '/resources/pref.csv')),
+        var stationCsvArray = csv2array(fs.readFileSync(__dirname + "/resources/station.csv")),
+            lineCsvArray = csv2array(fs.readFileSync(__dirname + "/resources/line.csv")),
+            prefCsvArray = csv2array(fs.readFileSync(__dirname + "/resources/pref.csv")),
             lineMap = {}, prefMap = {};
             _self = this;
             
@@ -65,6 +68,37 @@ const mp = {
         });
     },
 
+    logError: function(status, path, param) { 
+        var errorMsg = {
+            status: status,
+            path: path,
+            param: param
+        };
+
+        if (!this.logger) {
+            log4js.configure({
+                appenders: {
+                    error: {
+                        type: "file",
+                        filename: "log/error.log",
+                        maxLogSize: 10000,
+                        backups: 2,
+                    }
+                },
+                 categories: {
+                    default: {
+                        appenders: ["error"],
+                        level: "error"
+                    }
+                }
+            });
+
+            this.logger = log4js.getLogger("error");
+        }
+
+        this.logger.error(JSON.stringify(errorMsg));  
+    },
+
     // get station object considering of suffix "駅"
     // return format is below
     // {
@@ -94,20 +128,23 @@ const mp = {
 mp.loadDef();
 
 // simple link
-app.get('/', function (req, res) {
+app.get("/", function (req, res) {
     res.redirect("/index");
 });
-app.get('/index', function (req, res) {
+app.get("/index", function (req, res) {
     res.render("index");
 });
-app.get('/info', function (req, res) {
-    res.render("info");
+app.get("/contact", function (req, res) {
+    res.render("contact");
 });
-app.get('/poricy', function (req, res) {
+app.get("/poricy", function (req, res) {
     res.render("poricy");
 });
+app.get("/information", function (req, res) {
+    res.render("information");
+});
 
-app.get('/check/exist', function (req, res) {
+app.get("/check/exist", function (req, res) {
     var notFoundStations = [];
 
     Object.keys(req.query).forEach(function (key) {
@@ -130,13 +167,13 @@ app.get('/check/exist', function (req, res) {
         }
     });
 
-    res.header('Content-Type', 'application/json; charset=utf-8')
+    res.header("Content-Type", "application/json; charset=utf-8")
     res.send({
         notFoundStations: notFoundStations
     });
 });
 
-app.get('/inspection', function (req, res) {
+app.get("/inspection", function (req, res) {
     var candidates = [],
         requireResolution = false,
         url;
@@ -181,7 +218,7 @@ app.get('/inspection', function (req, res) {
     }
 });
 
-app.get('/search', function (req, res) {
+app.get("/search", function (req, res) {
     var lon = 0.0, lat = 0.0,
         middlePointStations = [], userInputStations = [];
 
@@ -264,6 +301,26 @@ app.get('/search', function (req, res) {
     });
 });
 
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
+// 404 error
+app.use(function(req, res, next){
+    mp.logError(404, req.path, req.query);
+    res.status(404);
+    res.render("error", {
+        status: 404,
+        msg: req.path + "は存在しないパスです。"
+    });
+});
+
+//500 error
+app.use(function(err, req, res, next){
+    mp.logError(500, req.path, req.query);
+    res.status(500);
+    res.render("error", {
+        status: 500,
+        msg: "サーバー内部エラーです。申し訳ありません。"
+    });
+});
+
+app.listen(9000, function () {
+    console.log("start");
 });

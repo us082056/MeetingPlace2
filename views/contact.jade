@@ -1,0 +1,29 @@
+extends base
+
+block meta
+    title お問い合わせ
+    meta(name="robots", content="noindex,follow")
+
+block import
+    script(type="text/javascript", src="javascripts/common/backbutton.js")
+    script(type="text/javascript").
+        $(function(){
+            mp.backbuttonControl.init();
+        });
+
+block content
+    .panel.panel-primary
+        .panel-heading お問い合わせ先
+        .panel-body
+            p 以下のいずれかまでご連絡ください。
+            ol
+                li
+                    p twitter（DM）
+                    p 
+                        a(href="https://twitter.com/hoge_hoge_X") サービス開発用アカウント
+
+                li
+                    p mail
+                    p 公開方法検討中（スパム対策）
+
+            input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")
