@@ -1,0 +1,66 @@
+extends base
+
+block meta
+    title サイトポリシー
+    meta(name="robots", content="noindex,follow")
+
+block import
+    script(type="text/javascript", src="javascripts/common/backbutton.js")
+    script(type="text/javascript").
+        $(function(){
+            mp.backbuttonControl.init();
+        });
+
+block content
+    .panel.panel-primary
+        .panel-heading サイトポリシー
+        .panel-body
+            ol
+                li
+                    p 基本的な考え方
+                    p 
+                        | 当サイトではサービスの円滑な運営のために、利用者の利用状況を収集しています。<br>
+                        | 利用状況は個人を特定できない形で収集されるため、当サイトの利用により個人情報が流出することはありません。<br>
+                        | また、当サイトではJavaScript（ブラウザ上で実行されるプログラム）を使用しています。<br>
+                        | お使いのブラウザでJavaScript機能を無効化することは可能ですが、当サイトのサービスを正しく利用することができなくなります。
+
+                li
+                    p 収集する情報の範囲
+                    p 
+                        | 利用者の利用端末種別、利用時間帯、インターネットドメインなどの情報を収集します。<br>
+                        | なおクッキーについて基本的に利用しておりませんが、今後予告なしでクッキーを利用する場合があります。<br>
+                        | 気にされる方はブラウザの設定でクッキーの利用を無効化してください。
+
+                li
+                    p 利用目的
+                    p 
+                        | 当サイトの安定運用、及びサービス改善のためだけに利用します。
+
+                li
+                    p Google Analytics
+                    p 
+                        | 当サイトではGoogle Analyticsによる情報収集を行っています。<br>
+                        | Google Analyticsの機能により、お使いのブラウザでJavaScript、クッキーが利用される場合があります。<br>
+                        | なお、Google Analyticsのサービス利用により万が一損害が発生しても、当サイトは責任を負いません。
+
+                li
+                    p web広告
+                    p 
+                        | 当サイトではweb広告の掲載を行っています。<br>
+                        | web広告の機能により、お使いのブラウザでJavaScript、クッキーが利用される場合があります。<br>
+                        | なお、web広告により万が一損害が発生しても、当サイトは責任を負いません。
+
+                li
+                    p 当サイトが収集した情報の提供
+                    p 
+                        | 当サイトが収集した情報を第三者へ提供することはありません。<br>
+                        | ただし犯罪行為等への調査が必要となった場合はこの限りではありません。
+
+                li
+                    p その他
+                    p 
+                        | 当サイトのサービスを利用した時点で、当ポリシーに同意したものとします。<br>
+                        | また、当サイトは個人で運用しております。サービスの品質・提供する情報に付きましては万全を尽くしておりますが、<br>
+                        | 至らぬこともあるかと思います。なお、当サイトの情報を利用したいかなる行為において、当サイトは一切責任を負いません。
+
+            input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")

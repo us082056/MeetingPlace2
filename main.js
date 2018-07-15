@@ -93,12 +93,18 @@ const mp = {
 
 mp.loadDef();
 
-// start point
+// simple link
 app.get('/', function (req, res) {
     res.redirect("/index");
 });
 app.get('/index', function (req, res) {
     res.render("index");
+});
+app.get('/info', function (req, res) {
+    res.render("info");
+});
+app.get('/poricy', function (req, res) {
+    res.render("poricy");
 });
 
 app.get('/check/exist', function (req, res) {
@@ -176,8 +182,8 @@ app.get('/inspection', function (req, res) {
 });
 
 app.get('/search', function (req, res) {
-    var lon = 0.0, lat = 0.0, stationCount = 0,
-        middlePointStations = [];
+    var lon = 0.0, lat = 0.0,
+        middlePointStations = [], userInputStations = [];
 
     // calculate middle point
     Object.keys(req.query).forEach(function (key) {
@@ -189,15 +195,15 @@ app.get('/search', function (req, res) {
             }
 
             stationName = req.query[key];
+            userInputStations.push(stationName);
             stationData = mp.def.station[stationName];
 
             lon += parseFloat(stationData.lon);
             lat += parseFloat(stationData.lat);
-            stationCount++;
     });
 
-    lon = lon / stationCount;
-    lat = lat / stationCount;
+    lon = lon / userInputStations.length;
+    lat = lat / userInputStations.length;
 
     // calculate distancea between each station and middle point
     Object.keys(mp.def.station).some(function (key) {
@@ -232,14 +238,30 @@ app.get('/search', function (req, res) {
         return (a.kmDist - b.kmDist);
     });
 
-    // trim
+    // trim length
     if (middlePointStations.length > 5) {
         middlePointStations = middlePointStations.slice(0, 5);
     }
 
-    console.log(middlePointStations);
+    // trim lineName
+    middlePointStations.forEach(function(stationData) {
+        var lineNameArray = stationData.lineName;
 
-    res.redirect("/index");
+        if (lineNameArray.length > 3) {
+            lineNameArray = lineNameArray.slice(0, 3);
+            lineNameArray.push("等");
+        }
+
+        stationData.lineName = lineNameArray.join(", ");
+    });
+
+    // trim inputStations
+    userInputStations = userInputStations.join(", ");
+
+    res.render("result", {
+        middlePointStations: middlePointStations,
+        userInputStations: userInputStations
+    });
 });
 
 app.listen(3000, function () {

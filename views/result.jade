@@ -1,0 +1,41 @@
+extends base
+
+block meta
+    title 検索結果
+    meta(name="robots", content="noindex,follow")
+
+block import
+    script(type="text/javascript", src="javascripts/result.js")
+    script(type="text/javascript", src="javascripts/common/backbutton.js")
+    script(type="text/javascript").
+        $(function(){
+            mp.resultControl.init();
+            mp.backbuttonControl.init();
+        });
+
+block content
+    .panel.panel-primary
+        .panel-heading 検索結果
+        .panel-body
+            table.table.table-bordered.table-condensed
+                caption 集合駅候補
+                    if middlePointStations.length > 0
+                        tr.active
+                            th 駅名
+                            th 路線名
+                        each stationData, idx in middlePointStations
+                            tr
+                                td #{stationData.stationName}
+                                td #{stationData.lineName}
+                    else
+                        tr
+                            td.mp-notfoundmsg 中間地点付近に駅がありませんでした。
+
+            // TODO: 広告エリア
+
+            table.table.table-bordered.table-condensed
+                caption 検索に使用した駅
+                tr
+                    td #{userInputStations}
+
+            input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")

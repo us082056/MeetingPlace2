@@ -14,6 +14,12 @@ html(lang="ja")
 
     // TODO: GoogleAnaliticsのタグ入れる
 
+    script(type="text/javascript").
+        $(function(){
+            // own library namespace
+            window.mp = {};
+        });
+
     block import
   body
     .well.well-sm
@@ -31,3 +37,5 @@ html(lang="ja")
 
         // common footer
         #mp-footerarea
+        // TODO: 広告
+        a(href="poricy") サイトポリシー

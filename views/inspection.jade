@@ -6,9 +6,11 @@ block meta
 
 block import
     script(type="text/javascript", src="javascripts/inspection.js")
+    script(type="text/javascript", src="javascripts/common/backbutton.js")
     script(type="text/javascript").
         $(function(){
             mp.inspectionControl.init();
+            mp.backbuttonControl.init();
         });
 
 block content
