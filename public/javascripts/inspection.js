@@ -12,7 +12,7 @@ $(function(){
                         $input = $(".mp-stationform").find("input, select");
 
                     $input.each(function(idx, elm) {
-                        url += "station" + (idx + 1) + "=" + $(elm).val();
+                        url += "station" + (idx + 1) + "=" + encodeURIComponent($(elm).val());
 
                         if (idx !== ($input.length - 1)) {
                             url += "&";

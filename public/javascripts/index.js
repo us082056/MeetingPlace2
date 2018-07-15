@@ -84,7 +84,7 @@ $(function(){
                         var url = "inspection?";
 
                         Object.keys(reqParam).forEach(function (key, idx, array) {
-                            url += key + "=" + reqParam[key];
+                            url += key + "=" + encodeURIComponent(reqParam[key]);
 
                             if (idx !== (array.length - 1)) {
                                 url += "&";

@@ -186,7 +186,7 @@ app.get("/inspection", function (req, res) {
             return true;
         }
 
-        stationName = req.query[queryKey];
+        stationName = decodeURIComponent(req.query[queryKey]);
         candidateStationNames = Object.keys(mp.getStationFuzzy(stationName));
 
         candidates.push({
@@ -207,7 +207,7 @@ app.get("/inspection", function (req, res) {
         url = "search?";
 
         candidates.forEach(function(elm, idx) {
-            url += "station" + (idx + 1) + "=" + elm.candidateStationNames[0];
+            url += "station" + (idx + 1) + "=" + encodeURIComponent(elm.candidateStationNames[0]);
 
             if (idx !== (candidates.length - 1)) {
                 url += "&";
@@ -231,7 +231,7 @@ app.get("/search", function (req, res) {
                 return true;
             }
 
-            stationName = req.query[key];
+            stationName = decodeURIComponent(req.query[key]);
             userInputStations.push(stationName);
             stationData = mp.def.station[stationName];
 
