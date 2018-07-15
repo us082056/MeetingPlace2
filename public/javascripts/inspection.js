@@ -1,7 +1,7 @@
 const mp = {
     inspectionControl : {
         init: function() {
-            var $msg = $("<p class='mp-errormsg alert alert-info'/>");
+            var $msg = $("<p class='mp-infomsg alert alert-info'/>");
 
             $msg.append("下記の駅は複数の候補があります、検索に使用する駅を選択してください。");
             $("#mp-messagearea").append($msg);
