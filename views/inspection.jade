@@ -17,7 +17,7 @@ block content
         .panel-body
             form
                 #mp-inputgroup
-                    each candidate, idx in candidates
+                    each candidate in candidates
                         .mp-stationform.form-group
                             if candidate.candidateStationNames.length === 1
                                 input(value=candidate.candidateStationNames[0], type="hidden")
