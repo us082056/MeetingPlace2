@@ -6,9 +6,11 @@ block meta
 
 block import
     script(type="text/javascript", src="javascripts/common/backbutton.js")
+    script(type="text/javascript", src="javascripts/common/safegencontact.js")
     script(type="text/javascript").
         $(function(){
             mp.backbuttonControl.init();
+            mp.safegencontact.apply($("#mp-gencontact"));
         });
 
 block content
@@ -20,10 +22,11 @@ block content
                 li
                     p twitter（DM）
                     p 
-                        a(href="https://twitter.com/hoge_hoge_X") サービス開発用アカウント
+                        a(href="https://twitter.com/hoge_hoge_X") サービス開発用アカウント(twitterへジャンプ)
 
                 li
-                    p mail
-                    p 公開方法検討中（スパム対策）
+                    p Email
+                    p
+                        a#mp-gencontact(href="dummy") こちらまで（メーラー起動）
 
             input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")
