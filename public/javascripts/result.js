@@ -14,6 +14,7 @@ $(function(){
 
                 $("#mp-messagearea").append($msg);
 
+                // override share URL
                 $(".line-it-button").attr("data-url", encodeURI(location.href));
             }
         }

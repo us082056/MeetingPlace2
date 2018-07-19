@@ -34,8 +34,13 @@ block content
             // add: m2_smartphone_inline
             script(src="//adm.shinobi.jp/s/9daafb13222f4e0f73b125940067945d")
 
-            .line-it-button(data-lang="ja", data-type="share-a", style="display: none;")
-            script(src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js", async="async", defer="defer")
+            // line share
+            table.table.table-bordered.table-condensed
+                caption 検索結果を共有
+                tr
+                    td
+                        .line-it-button(data-lang="ja", data-type="share-a", data-url="http://meeting-place.shibatar.net", style="display: none;")
+                        script(src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js", async="async", defer="defer")
 
             table.table.table-bordered.table-condensed
                 caption 検索に使用した駅
