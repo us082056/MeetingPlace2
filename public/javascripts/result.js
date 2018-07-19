@@ -13,6 +13,8 @@ $(function(){
                 }
 
                 $("#mp-messagearea").append($msg);
+
+                $(".line-it-button").attr("data-url", encodeURI(location.href));
             }
         }
     });
