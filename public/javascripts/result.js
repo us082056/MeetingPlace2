@@ -2,7 +2,7 @@ $(function(){
     $.extend(true, mp, {
         resultControl: {
             init: function() {
-                var $msg;
+                var $msg, $clipboardBtn;
 
                 if ($(".mp-notfoundmsg").length === 0) {
                     $msg = $("<p class='mp-infomsg alert alert-info'/>");
@@ -16,6 +16,13 @@ $(function(){
 
                 // override share URL
                 $(".line-it-button").attr("data-url", encodeURI(location.href));
+                $("#mp-copybutton").attr("data-clipboard-text", encodeURI(location.href));
+
+                $clipboardBtn = new ClipboardJS("#mp-copybutton");
+                $clipboardBtn.on("success", function(e) {
+                    e.clearSelection();
+                    alert("URLをコピーしました。");
+                });
             }
         }
     });

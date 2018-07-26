@@ -7,6 +7,7 @@ block meta
 block import
     script(type="text/javascript", src="javascripts/result.js")
     script(type="text/javascript", src="javascripts/common/backbutton.js")
+    script(type="text/javascript", src="vendor/clipboard.js-master/dist/clipboard.min.js")
     script(type="text/javascript").
         $(function(){
             mp.resultControl.init();
@@ -31,16 +32,22 @@ block content
                         tr
                             td.mp-notfoundmsg 中間地点付近に駅がありませんでした。
 
-            // add: m2_smartphone_inline
-            script(src="//adm.shinobi.jp/s/9daafb13222f4e0f73b125940067945d")
-
             // line share
             table.table.table-bordered.table-condensed
                 caption 検索結果を共有
                 tr
                     td
-                        .line-it-button(data-lang="ja", data-type="share-a", data-url="http://meeting-place.shibatar.net", style="display: none;")
-                        script(src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js", async="async", defer="defer")
+                        ul.nav.nav-pills
+                            li
+                                // line
+                                .line-it-button(data-lang="ja", data-type="share-a", data-url="http://meeting-place.shibatar.net", style="display: none;")
+                                script(src="https://d.line-scdn.net/r/web/social-plugin/js/thirdparty/loader.min.js", async="async", defer="defer")
+                            li
+                                // clipboard
+                                input#mp-copybutton.btn.btn-primary.btn-xs(type="button", value="共有用URLをコピー", data-clipboard-text="http://meeting-place.shibatar.net")
+
+            // add: m2_smartphone_inline
+            script(src="//adm.shinobi.jp/s/9daafb13222f4e0f73b125940067945d")
 
             table.table.table-bordered.table-condensed
                 caption 検索に使用した駅

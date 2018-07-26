@@ -13,6 +13,16 @@ $(function(){
             init: function() {
                 var _self = this;
 
+                // popup for additional homescreen
+                addToHomescreen({
+                    lifespan: 0,
+                    displayPace: 10080,
+                    message: {
+                        ios: "集合駅検索をホーム画面に追加するとアプリのように使えます。<br>ここをタップして<strong>ホーム画面に追加</strong>を選択して下さい。",
+                        android: "集合駅検索をホーム画面に追加するとアプリのように使えます。<br>ブラウザのオプションメニューから<strong>ホーム画面に追加</strong>を選択して下さい。"
+                    }
+                });
+
                 $("#mp-deletebutton").on("click", function() {
                     if ($(".mp-stationform").length === _self.MINIMUM_FORM_COUNT) {
                         return;

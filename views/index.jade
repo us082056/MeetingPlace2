@@ -6,20 +6,11 @@ block meta
 
 block import
     script(type="text/javascript", src="javascripts/index.js")
-    script(src="vendor/add-to-homescreen-master/src/addtohomescreen.js")
+    script(type="text/javascript", src="vendor/add-to-homescreen-master/src/addtohomescreen.js")
     link(rel="stylesheet", type="text/css", href="vendor/add-to-homescreen-master/style/addtohomescreen.css")
     script(type="text/javascript").
         $(function(){
             mp.indexControl.init();
-
-            // popup for additional homescreen
-            addToHomescreen({
-                lifespan: 0,
-                message: {
-                    ios: "集合駅検索をホーム画面に追加するとアプリのように使えます。<br>ここをタップして<strong>ホーム画面に追加</strong>を選択して下さい。",
-                    android: "集合駅検索をホーム画面に追加するとアプリのように使えます。<br>ブラウザのオプションメニューから<strong>ホーム画面に追加</strong>を選択して下さい。"
-                }
-            });
         });
 
 block content
