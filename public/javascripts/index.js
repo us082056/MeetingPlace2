@@ -124,6 +124,7 @@ $(function(){
                 // assuming that the message is already displayed,
                 // first empty message area
                 $("#mp-messagearea").empty().append($msg);
+                $("html, body").animate({scrollTop:$("#mp-messagearea").offset().top});
             },
 
             _updateDeleteButtonState: function() {
