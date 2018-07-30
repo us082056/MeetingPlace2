@@ -23,6 +23,9 @@ $(function(){
                     }
                 });
 
+                // TODO: jQueryUIのオートコンプリートを実装する
+                //       サーバサイドと、vendor資材のインポートは完了してるので、後はここに実装するだけ
+
                 $("#mp-deletebutton").on("click", function() {
                     if ($(".mp-stationform").length === _self.MINIMUM_FORM_COUNT) {
                         return;

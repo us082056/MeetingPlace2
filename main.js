@@ -144,6 +144,16 @@ app.get("/information", function (req, res) {
     res.render("information");
 });
 
+app.get("/check/autocomplist", function (req, res) {
+    var keyword = req.query["keyword"];
+
+    res.header("Content-Type", "application/json; charset=utf-8")
+    res.send({
+        // response forword match station names
+        autocomplist: Object.keys(mm.matchKeys(mp.def.station, keyword + "*"))
+    });
+});
+
 app.get("/check/exist", function (req, res) {
     var notFoundStations = [];
 
