@@ -23,8 +23,7 @@ $(function(){
                     }
                 });
 
-                // TODO: jQueryUIのオートコンプリートを実装する
-                //       サーバサイドと、vendor資材のインポートは完了してるので、後はここに実装するだけ
+                this._setAutocomplete($(".mp-stationform").find("input"));
 
                 $("#mp-deletebutton").on("click", function() {
                     if ($(".mp-stationform").length === _self.MINIMUM_FORM_COUNT) {
@@ -43,6 +42,7 @@ $(function(){
                     newForm.find("label").text("出発駅" + newIdx);
 
                     $("#mp-inputgroup").append(newForm);
+                    _self._setAutocomplete(newForm.find("input"));
 
                     _self._updateDeleteButtonState();
                 });
@@ -113,6 +113,20 @@ $(function(){
                         // do nothing
                         return;
                     });
+                });
+            },
+
+            _setAutocomplete: function($target) {
+                $target.autocomplete({
+                    source: function(req, res) {
+                        $.ajax({
+                            url: "check/autocomplist?keyword=" + req.term,
+                            dataType: "json",
+                            success: function(data) {
+                                res(data.autocomplist);
+                            }
+                        });
+                    }
                 });
             },
 

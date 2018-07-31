@@ -116,6 +116,11 @@ const mp = {
     getStationFuzzy: function(stationName) {
         var _stationName = stationName;
 
+        // first, exact match and break
+        if (this.def.station[_stationName]) {
+            return mm.matchKeys(this.def.station, _stationName);
+        }
+
         // if user input suffix "駅", remove it
         if(_stationName.slice(-1) === "駅") {
             _stationName = _stationName.slice(0, -1);
