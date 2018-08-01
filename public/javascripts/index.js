@@ -126,6 +126,11 @@ $(function(){
                                 res(data.autocomplist);
                             }
                         });
+                    },
+
+                    // Countermeasure select with one tap on smartphone
+                    open: function(event, ui) {
+                        $(".ui-autocomplete").off("menufocus hover mouseover mouseenter");
                     }
                 });
             },
