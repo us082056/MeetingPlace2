@@ -23,6 +23,9 @@ $(function(){
                     e.clearSelection();
                     alert("URLをコピーしました。");
                 });
+
+                // vefify
+                $(".mp-dialog-show").modaal();
             }
         }
     });

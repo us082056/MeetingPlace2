@@ -8,6 +8,11 @@ block import
     script(type="text/javascript", src="javascripts/result.js")
     script(type="text/javascript", src="javascripts/common/backbutton.js")
     script(type="text/javascript", src="vendor/clipboard.js-master/dist/clipboard.min.js")
+
+    // verify
+    script(type="text/javascript", src="vendor/modaal-0.4.4/dist/js/modaal.min.js")
+    link(rel="stylesheet", media="screen", href="vendor/modaal-0.4.4/dist/css/modaal.min.css")
+
     script(type="text/javascript").
         $(function(){
             mp.resultControl.init();
@@ -24,10 +29,18 @@ block content
                         tr.active
                             th 駅名
                             th 路線名
+
+                            // verify
+                            th 近くの店
+
                         each stationData, idx in middlePointStations
                             tr
                                 td #{stationData.stationName}
                                 td #{stationData.lineName}
+
+                                // verify
+                                td
+                                    a(href="#mp-dialog",　class="mp-dialog-show") 検索
                     else
                         tr
                             td.mp-notfoundmsg 中間地点付近に駅がありませんでした。
@@ -55,3 +68,7 @@ block content
                     td #{userInputStations}
 
             input#mp-backbutton.btn.btn-primary(type="button", value="入力画面へ戻る")
+
+    // verify
+    div(id="mp-dialog",style="display:none;")
+        p ras justo odio, dapibus ac facilisis in, egestas eget quam. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
