@@ -25,6 +25,8 @@ $(function(){
                 });
 
                 // vefify
+                // modaalの表示前スクリプトでajax通信+コンテンツ生成して、
+                //     div(id="mp-dialog",style="display:none;")　の下にappendすれば実現できそう
                 $(".mp-dialog-show").modaal();
             }
         }
