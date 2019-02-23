@@ -24,10 +24,60 @@ $(function(){
                     alert("URLをコピーしました。");
                 });
 
-                // vefify
-                // modaalの表示前スクリプトでajax通信+コンテンツ生成して、
-                //     div(id="mp-dialog",style="display:none;")　の下にappendすれば実現できそう
-                $(".mp-dialog-show").modaal();
+                // お店検索してダイアログ表示
+                $(".mp-dialog-show").modaal({
+                    before_open: function(event) {
+                        var $content = $("<div class='panel panel-default'/>");
+
+                        // 前の検索結果がダイアログに残るため一度空にする。
+                        $(".mp-dialog-content").empty().append("検索中...");
+
+                        $.ajax({
+                            url: "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/",
+                            dataType: "jsonp",
+                            data: {
+                                "key": "176402b9d6791e87",
+                                "format": "jsonp",
+                                "range": "5", // 検索範囲（5: 3000m以内）
+                                "count": "20", // 検索結果の取得数
+                                "lng": event.currentTarget.dataset.station_lon,
+                                "lat": event.currentTarget.dataset.station_lat
+                            }
+                        }).done(function(res) {
+                            var contentStr = "";
+
+                            // ガード: お店のデータがない場合は以降処理しない。
+                            if (!res.results.shop || res.results.shop.length === 0) {
+                                $content.append("<p>近くのお店が見つかりませんでした。</p><p>(´・ω・`)</p>");
+                                return;
+                            }
+
+                            contentStr += "<div class='panel-heading'>お店検索（β版）</div>";
+                            contentStr += "<ul class='list-group'>";
+
+                            res.results.shop.forEach(function(shop) {
+                                contentStr += "<li class='list-group-item'>" +
+                                                "<div>" + shop.name + "</div>" +
+                                                "<div>（" + shop.genre.name + "）</div>" +
+                                                "<a href='" + shop.urls.pc + "' target='_blank'>お店のWEBサイトを見る</a>" +
+                                              "</li>";
+                            });
+
+                            contentStr += "</ul>";
+
+                            $content.append(contentStr);
+                        }).fail(function() {
+                            $content.append("<p>申し訳ありません。想定外のエラーが発生しました。</p><p>(´・ω・`)</p>");
+                        }).always(function() {
+                            $(".mp-dialog-content").empty().append($content);
+                        });
+                    }
+                });
+
+                // ダイアログcloseのハンドラ
+                $("#mp-dialog-closebutton").on("click", function() {
+                    $(".mp-dialog-show").modaal("close");
+                });
             }
         }
     });

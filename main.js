@@ -280,7 +280,9 @@ app.get("/search", function (req, res) {
             middlePointStations.push({
                 stationName: key,
                 lineName: stationData.lineName,
-                kmDist: kmDist
+                kmDist: kmDist,
+                lon: tmpLon,
+                lat: tmpLat
             });
         }
     });
