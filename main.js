@@ -275,8 +275,8 @@ app.get("/search", function (req, res) {
                             Math.sin(radian(tmpLat))
                         );
 
-        // within 10km radius
-        if (kmDist <= 10) {
+        // within 300km radius, because the width of Japan is roughly like that
+        if (kmDist <= 300) {
             middlePointStations.push({
                 stationName: key,
                 lineName: stationData.lineName,
