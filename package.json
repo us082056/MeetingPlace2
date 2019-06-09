@@ -1,8 +1,13 @@
 {
   "name": "meetingplace2",
   "version": "0.0.0",
+  "engines": {
+    "node": "10.*.*"
+  },
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "start": "node main.js"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "csv-parse": "^2.5.0",
