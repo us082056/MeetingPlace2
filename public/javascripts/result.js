@@ -33,7 +33,7 @@ $(function(){
                         $(".mp-dialog-content").empty().append("検索中...");
 
                         $.ajax({
-                            url: "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/",
+                            url: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/",
                             dataType: "jsonp",
                             data: {
                                 "key": "176402b9d6791e87",
