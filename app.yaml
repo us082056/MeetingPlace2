@@ -5,8 +5,11 @@ handlers:
   secure: always
 instance_class: F1
 automatic_scaling:
-  min_idle_instances: automatic
+  target_cpu_utilization: 0.7
+  target_throughput_utilization: 0.7
+  min_instances: 0
   max_idle_instances: 1
-  min_pending_latency: 3000ms
+  min_idle_instances: 0
   max_pending_latency: automatic
+  min_pending_latency: automatic
   max_concurrent_requests: 80
