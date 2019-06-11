@@ -5,8 +5,8 @@ handlers:
   secure: always
 instance_class: F1
 automatic_scaling:
-  target_cpu_utilization: 0.7
-  target_throughput_utilization: 0.7
+  target_cpu_utilization: 0.75
+  target_throughput_utilization: 0.75
   min_instances: 0
   max_idle_instances: 1
   min_idle_instances: 0
