@@ -20,14 +20,14 @@ block content
         .panel-heading 検索条件
         .panel-body
             p.btn-group
-                button#mp-deletebutton.btn.btn-default(type="button", disabled) 出発駅削除
-                button#mp-addbutton.btn.btn-default(type="button") 出発駅追加
+                button#mp-deletebutton.btn.btn-default(type="button", disabled) 出発駅を減らす
+                button#mp-addbutton.btn.btn-default(type="button") 出発駅を増やす
             form
                 #mp-inputgroup
                     .mp-stationform.form-group
                         label 出発駅1
-                        input.form-control(type="text",placeholder="駅名（例：新宿）")
+                        input.form-control.font-16px(type="text",placeholder="駅名（例：新宿）")
                     .mp-stationform.form-group
                         label 出発駅2
-                        input.form-control(type="text",placeholder="駅名（例：渋谷）")
+                        input.form-control.font-16px(type="text",placeholder="駅名（例：渋谷）")
                 input#mp-searchbutton.btn.btn-primary(type="button", value="検索")

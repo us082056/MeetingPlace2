@@ -5,7 +5,7 @@ $(function(){
 
             FORM_TEMPLATE: "<div class='mp-stationform form-group'>" +
                                 "<label/>" +
-                                "<input type='text' class='form-control' placeholder='駅名'>" +
+                                "<input type='text' class='form-control font-16px' placeholder='駅名'>" +
                             "</div>",
 
             ERROR_MSG_TEMPLATE: "<p class='mp-errormsg alert alert-danger'/>",
