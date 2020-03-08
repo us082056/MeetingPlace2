@@ -1,3 +1,9 @@
 node_modules/
 package-lock.json
 log/
+.DS_Store
+public/.DS_Store
+public/javascripts/.DS_Store
+public/vendor/.DS_Store
+public/vendor/bootstrap-3.3.6-dist/.DS_Store
+views/.DS_Store
