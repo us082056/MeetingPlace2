@@ -340,7 +340,7 @@ app.use(function(err, req, res, next){
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, function () {
-    console.log("start");
+    console.log("start port: " + PORT);
 });
 // app.listen(9000, function () {
 //     console.log("start");
