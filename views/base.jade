@@ -17,14 +17,13 @@ html(lang="ja")
     script(type="text/javascript", src="vendor/bootstrap-3.3.6-dist/js/bootstrap.min.js")
 
     // GA
+    script(async src="https://www.googletagmanager.com/gtag/js?id=G-SR87GCGPML")
     script.
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-        ga('create', 'UA-26646759-2', 'auto');
-        ga('send', 'pageview');
+      gtag('config', 'G-SR87GCGPML');
 
     // adsense
     script(async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js")
