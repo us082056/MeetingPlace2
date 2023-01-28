@@ -16,6 +16,7 @@ app.set("view engine", "jade");
 app.use(express.static("public"));
 app.use(express.static("resources"));
 
+// hoge
 const mp = {
     logger: null,
 
