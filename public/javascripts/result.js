@@ -34,10 +34,10 @@ $(function(){
 
                         $.ajax({
                             url: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/",
-                            dataType: "jsonp",
+                            dataType: "json",
                             data: {
                                 "key": "176402b9d6791e87",
-                                "format": "jsonp",
+                                "format": "json",
                                 "range": "5", // 検索範囲（5: 3000m以内）
                                 "count": "20", // 検索結果の取得数
                                 "lng": event.currentTarget.dataset.station_lon,
@@ -66,7 +66,7 @@ $(function(){
                             contentStr += "</ul>";
 
                             $content.append(contentStr);
-                        }).fail(function() {
+                        }).fail(function(e) {
                             $content.append("<p>申し訳ありません。想定外のエラーが発生しました。</p><p>(´・ω・`)</p>");
                         }).always(function() {
                             $(".mp-dialog-content").empty().append($content);
