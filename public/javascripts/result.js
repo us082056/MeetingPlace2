@@ -33,13 +33,9 @@ $(function(){
                         $(".mp-dialog-content").empty().append("検索中...");
 
                         $.ajax({
-                            url: "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/",
+                            url: "/gourmet",
                             dataType: "json",
                             data: {
-                                "key": "176402b9d6791e87",
-                                "format": "json",
-                                "range": "5", // 検索範囲（5: 3000m以内）
-                                "count": "20", // 検索結果の取得数
                                 "lng": event.currentTarget.dataset.station_lon,
                                 "lat": event.currentTarget.dataset.station_lat
                             }

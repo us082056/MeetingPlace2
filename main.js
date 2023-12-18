@@ -319,6 +319,42 @@ app.get("/search", function (req, res) {
     });
 });
 
+app.get("/gourmet", function (req, res) {
+    const queryStr = new URLSearchParams({
+        "key": "176402b9d6791e87",
+        "format": "json",
+        "range": "5", // 検索範囲（5: 3000m以内）
+        "count": "20", // 検索結果の取得数
+        "lng": req.query["lng"],
+        "lat": req.query["lat"]
+    });
+    const url = "https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?" + queryStr;
+
+    fetch(url, {
+        method: "GET",
+        mode: "cors"
+    }).then(apiRes => {
+        if (!apiRes.ok) {
+            console.error("request failed.");
+
+            res.status(500).json({
+                message: "faild proxy api"
+            });
+        }
+        
+        return apiRes.json();
+    }).then(jsonData => {
+        console.log(jsonData);
+        res.json(jsonData);
+    }).catch(error => {
+        console.error("other reasons failed.");
+
+        res.status(500).json({
+            message: "faild proxy api"
+        });
+    });
+});
+
 // 404 error
 app.use(function(req, res, next){
     mp.logError(404, req.path, req.query);
